@@ -13,5 +13,5 @@ script:
   # Test running the container.
   - make run
 
-  # Test systemd is there and working
-  - sleep 5 && docker exec cdp-arch-systemd systemctl show -p SystemState --value
+  # Wait for the container to spin up, then test that systemd is working
+  - sleep 5 && make test

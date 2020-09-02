@@ -1,6 +1,9 @@
-# Docker Archlinux Systemd
+# Docker Archlinux with Systemd
 
-An updated Archlinux docker image (based on [archlinux/base](https://hub.docker.com/r/archlinux/base)) with Systemd support.
+[![Build Status](https://travis-ci.com/CarloDePieri/docker-archlinux-systemd.svg?branch=master)](https://travis-ci.com/CarloDePieri/docker-archlinux-systemd)
+
+An updated Archlinux docker image (based on [archlinux](https://hub.docker.com/_/archlinux))
+with the full base group and Systemd support.
 
 ## Building the image
 
@@ -11,7 +14,7 @@ Then run:
 docker build -t carlodepieri/docker-archlinux-systemd .
 ```
 
-or, as a convenience:
+or, for convenience:
 
 ```bash
 make
@@ -29,7 +32,7 @@ docker run --name=cdp-arch-systemd --detach --privileged --volume=/sys/fs/cgroup
 carlodepieri/docker-archlinux-systemd
 ```
 
-or, as a convenience:
+or, for convenience:
 
 ```bash
 make run-container
@@ -39,7 +42,7 @@ This will start a new container based on the image with the cgroup folder availa
 as read-only and `--privileged`.
 
 > **Important Note**: these steps are necessary to make systemd behave,
-but be sure to understand [the security concerns involved](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities).
+> but be sure to understand [the security concerns involved](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities).
 
 ## Connecting to the container
 
@@ -49,7 +52,7 @@ Run:
 docker exec -it cdp-arch-systemd env TERM=xterm bash
 ```
 
-or, as a convenience:
+or, for convenience:
 
 ```bash
 make shell
