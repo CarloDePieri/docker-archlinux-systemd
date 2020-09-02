@@ -1,0 +1,17 @@
+---
+services: docker
+
+before_install:
+  # Upgrade Docker.
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+
+script:
+  # Test building Dockerfile.
+  - make
+
+  # Test running the container.
+  - make run
+
+  # Test systemd is there and working
+  - make test
