@@ -2,6 +2,7 @@ PACKAGE=carlodepieri/docker-archlinux-systemd
 VERSION=latest
 TAG=$(PACKAGE):$(VERSION)
 NAME=cdp-arch-systemd
+SHELL := /bin/bash
 
 all: build
 
