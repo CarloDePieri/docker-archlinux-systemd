@@ -1,10 +1,9 @@
 ---
 env:
   global:
-    # Credentials for dockerhub automation
-    - DOCKERHUB_USER=cdpci
-    # DOCKERHUB_PASS=...
-    - secure: "F89wTK7zOrTX1r9usNTGM4SKWZy3NUI2Q8L9REGaf03xUHG61FunZJF06sRDCfSCF150/Yssm/ERoUGhxGpnmWw/lVbjXI4UVouL95QXsF8Ow2EW7oa2GLIs6W6Q443xazYDcW7H7T5VJ6jzNXY615FqdYBEApwsU/FK8ryu7iOioOU8/VqQBkwcrzuWGtQsyQDNDaGArKgVoYTbvbLpLjIxdBfyJc185QiZVb5pzBL8brHx0sbYhANqTpvvvHd7yyXougPzwwyhiQ2q5bb8O21n+rUT8fe11FObiE7+w//A/O8yk5XDZpXRFFjPujoQ8+LmxN0S7zQrgMQ4S1X1XrjYU0McfK0rZB9wG68jtMjLeb/Cy9mbNVQfk/Em0MFllwySs9KpkUjHVIwwjPRPbkA91T2ZX4SSmH/CY+68pbswDe7A4J7t2S+p+swR8YD1u0JGlLti0EmevNEtCnYd61XvNrbRNWXLIln1IN9LgtmcKsp8XTJe0nPl5KbUXQ/ORcbbcOjWgJZLv86C1Vjk2XRM9d490TPzcH3CCJ3oAM010mrCylL1ZRwc5JYbbakTPGT5inEn2EJww7OAfWEGvrLRSvdZjVEJIUUjDnNtKp9038wNfeYDCLSAPYqBKxm7tv3v3LBMlg8g3PL1XyNmRB6jezCG8p+tCDcUpBTxDac="
+    # POST endpoint that will trigger a Docker Hub build
+    # DOCKERHUB_TRIGGER=...
+    - secure: "AwsI7PbULxcUtqg8q0keXFaFpMhyMjYnbFHMx9ag1jy1zIiQr6FRAORs+14AEREcXgqWKoHuaxHQCptowAIUPip2yon2dd1CliIpogZQegVKdpaJ6G0Vc1XLKhcIft9DGSy5p5qxg/ix4Kar5v6QPcoGPTxnNefTdtxc+kLwA0ar/QAnA/1wASgoaKOmKO82boH2MtfQrcfEEuT6LJzjLCTi7gNznzEIwERG/qX6/w7eGV6Tvb4v+btGmFfFwOKqneFjEpQAdnCJOaqjWm3/LswfcqAmL8DikSSDjEhEovZXKv8fWQccVW1XHsmEWEvkllSfFo6RdrqEEWu5j8fwcsvdSO4KNvxyU5QR5DHP0kP9hIbex8VbMmuoDelBKLIwnOYlC2VK61CTvZi+n2JgccPnUki1euP69BNHQhwHAoqVXtowM6boji1fEKjlr85UzZwEm/1QbKn5WE1neOorCtgGNtGamUxBWkBXLFjSuC8ALxvx/uowvUzA6LJtuH1vVASXihBASRXTDypHadibd3HuML9dU1dtwq1LutBDSulxp+V8OyBY4xImRxAvAbSwJTBh8n+Y+tbOiqaxN2AEbZz2Ah/KugMiVCo9qa9OFAdXK6JGUYmihbZETtLbHiYE/EGON6+WqB3R8dsCURxddQGCCPeLxf+exWM09KAdr/Q="
 
 services: docker
 
@@ -23,11 +22,6 @@ script:
   # Wait for the container to spin up, then test that systemd is working
   - sleep 5 && make test
 
-before_deploy:
-  - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASS"
-
 deploy:
   provider: script
-  script: docker push carlodepieri/docker-archlinux-systemd
-  on:
-    branch: master
+  script: curl -X POST "$DOCKERHUB_TRIGGER"
