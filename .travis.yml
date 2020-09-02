@@ -23,5 +23,8 @@ script:
   - sleep 5 && make test
 
 deploy:
+  # Since Docker Hub already build on git push, trigger here Docker Hub builds only on Travis cron jobs
   provider: script
   script: curl -X POST "$DOCKERHUB_TRIGGER"
+  on:
+    condition: "$TRAVIS_EVENT_TYPE == cron"

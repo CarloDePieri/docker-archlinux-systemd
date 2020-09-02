@@ -14,7 +14,7 @@ Then pull the image with:
 docker pull carlodepieri/docker-archlinux-systemd
 ```
 
-Images on Docker Hub gets automatically built once a month by Travis.
+Images on Docker Hub gets automatically built at least once a month by Travis.
 
 Create and start a container with:
 
