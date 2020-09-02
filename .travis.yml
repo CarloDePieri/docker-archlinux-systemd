@@ -14,4 +14,4 @@ script:
   - make run
 
   # Test systemd is there and working
-  - docker exec cdp-arch-systemd systemctl show -p SystemState --value
+  - sleep 5 && docker exec cdp-arch-systemd systemctl show -p SystemState --value
