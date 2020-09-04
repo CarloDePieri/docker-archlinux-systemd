@@ -1,6 +1,5 @@
-# FROM archlinux/base:latest
 FROM archlinux:latest
-MAINTAINER "Carlo De Pieri" <depieri.carlo@gmail.com>
+LABEL maintainer="depieri.carlo@gmail.com"
 
 # Make sure systemd knows we are in a container
 ENV container "docker"
