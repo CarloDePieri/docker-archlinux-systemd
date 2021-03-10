@@ -5,7 +5,7 @@ LABEL maintainer="depieri.carlo@gmail.com"
 ENV container "docker"
 
 # Update the system and install the full base group; then delete the cache
-RUN pacman -Syu --noconfirm base; \
+RUN pacman -Syu --noconfirm; \
 yes | pacman -Scc
 
 # Clean unneeded services

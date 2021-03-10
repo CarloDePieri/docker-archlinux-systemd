@@ -33,16 +33,19 @@ clean: clean-container clean-image
 act:
 	act -W .github/workflows/ci.yml
 
+act-shell:
+	docker exec -it act-CI-CI env TERM=xterm bash
+
+act-clean: clean
+	docker kill act-CI-CI && docker rm act-CI-CI
+
 act-testing:
 	act -W .github/workflows/ci_testing.yml
 
 act-testing-shell:
 	docker exec -it act-CI-testing-CI-testing env TERM=xterm bash
 
-clean-act:
-	docker kill act-CI-CI && docker rm act-CI-CI
-
-clean-act-testing:
+act-testing-clean: clean
 	docker kill act-CI-testing-CI-testing && docker rm act-CI-testing-CI-testing
 
 .PHONY: clean clean-image clean-container test run-container build-image shell run build all
