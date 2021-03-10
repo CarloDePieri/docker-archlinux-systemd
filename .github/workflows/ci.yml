@@ -34,6 +34,9 @@ jobs:
       - name: Run the container.
         run: make run
 
+      - name: Wait for the container to spin up.
+        run: sleep 10
+
       - name: Test the container.
         run: make test
 
