@@ -39,3 +39,18 @@ jobs:
       - name: Cleanup container (using Act).
         if: env.using_act == 'true'
         run: make clean-container
+
+      - name: Login to DockerHub
+        if: env.using_act == 'false'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        if: env.using_act == 'false'
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: carlodepieri/docker-archlinux-systemd:testing
