@@ -1,9 +1,11 @@
 # Docker Archlinux with Systemd
 
-[![Travis (.com)](https://img.shields.io/travis/com/CarloDePieri/docker-archlinux-systemd?logo=travis)](https://travis-ci.com/CarloDePieri/docker-archlinux-systemd) [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/carlodepieri/docker-archlinux-systemd?logo=docker)](https://hub.docker.com/r/carlodepieri/docker-archlinux-systemd)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/CarloDePieri/docker-archlinux-systemd/CI?logo=github) [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/carlodepieri/docker-archlinux-systemd?logo=docker)](https://hub.docker.com/r/carlodepieri/docker-archlinux-systemd)
 
 An updated Archlinux docker image (based on [archlinux](https://hub.docker.com/_/archlinux))
 with the full base group and Systemd support.
+
+Images are built by GitHub CI and pushed to DockerHub at least once a month.
 
 ## From Docker Hub
 
