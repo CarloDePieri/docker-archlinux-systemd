@@ -33,6 +33,9 @@ clean: clean-container clean-image
 act:
 	act -W .github/workflows/ci.yml
 
+act-publish:
+	act -W .github/workflows/ci.yml -j publish --secret-file=.secrets
+
 act-shell:
 	docker exec -it act-CI-CI env TERM=xterm bash
 
@@ -40,7 +43,10 @@ act-clean: clean
 	docker kill act-CI-CI && docker rm act-CI-CI
 
 act-testing:
-	act -W .github/workflows/ci_testing.yml
+	act -W .github/workflows/ci_testing.yml -j build
+
+act-testing-publish:
+	act -W .github/workflows/ci_testing.yml -j publish --secret-file=.secrets
 
 act-testing-shell:
 	docker exec -it act-CI-testing-CI-testing env TERM=xterm bash
