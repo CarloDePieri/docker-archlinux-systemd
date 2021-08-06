@@ -1,6 +1,7 @@
 PACKAGE=carlodepieri/docker-archlinux-systemd
 VERSION=latest
 TAG=$(PACKAGE):$(VERSION)
+TAG_VOLUME=$(PACKAGE)-with-volume:$(VERSION)
 NAME=cdp-arch-systemd
 SHELL := /bin/bash
 ACT_TEST_CTX=act-dev-ci
@@ -21,10 +22,16 @@ shell:
 	docker exec -it $(NAME) env TERM=xterm bash
 
 build-image:
-	docker build -t $(TAG) .
+	docker build --target build -t $(TAG) .
+
+build-image-volume:
+	docker build --target build_with_volume -t $(TAG_VOLUME) .
 
 run-container:
-	docker run --name=$(NAME) --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro $(TAG)
+	docker run --name=$(NAME) --detach --privileged $(TAG)
+
+run-container-volume:
+	docker run --name=$(NAME) --detach --privileged -v /sys/fs/cgroup/:/sys/fs/cgroup/:ro $(TAG_VOLUME)
 
 test:
 	[[ $$(docker exec $(NAME) systemctl show -p SystemState --value 2>/dev/null) == "running" ]] && exit 0 || exit 1
@@ -34,6 +41,9 @@ clean-container:
 
 clean-image: 
 	docker rmi $(TAG)
+
+clean-image-volume: 
+	docker rmi $(TAG_VOLUME)
 
 clean: clean-container clean-image
 
@@ -60,4 +70,4 @@ act-prod-clean: clean-container
 		$(call rm_ctx_name,$(ACT_PROD_CTX_DEPLOY)) && \
 		$(call rm_ctx_id,$$(docker ps -a -q --filter ancestor=moby/buildkit:buildx-stable-1))
 
-.PHONY: clean clean-image clean-container test run-container build-image shell run build all act-dev act-dev-shell act-dev-clean act-prod act-prod-shell-ci act-prod-shell-deploy act-prod-clean
+.PHONY: clean clean-image clean-image-volume clean-container test run-container run-container-volume build-image build-image-volume shell run build all act-dev act-dev-shell act-dev-clean act-prod act-prod-shell-ci act-prod-shell-deploy act-prod-clean
