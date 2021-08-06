@@ -19,7 +19,7 @@ docker pull carlodepieri/docker-archlinux-systemd
 Create and start a container with:
 
 ```bash
-docker run --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro carlodepieri/docker-archlinux-systemd
+docker run --detach --privileged carlodepieri/docker-archlinux-systemd
 ```
 
 A shell can then be obtained with:
@@ -42,7 +42,7 @@ A [working Docker installation](https://docs.docker.com/engine/install/) is need
 Then run:
 
 ```bash
-docker build -t carlodepieri/docker-archlinux-systemd .
+docker build --target build -t carlodepieri/docker-archlinux-systemd .
 ```
 
 or, for convenience:
@@ -51,15 +51,15 @@ or, for convenience:
 make
 ```
 
-This will build the image. The command `docker images` can then be used to verify a
-successful build.
+This will build the image. The command `docker images` can then be used to verify
+a successful build.
 
 ### Creating a new container
 
 Run:
 
 ```bash
-docker run --name=cdp-arch-systemd --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro carlodepieri/docker-archlinux-systemd
+docker run --name=cdp-arch-systemd --detach --privileged carlodepieri/docker-archlinux-systemd
 ```
 
 or, for convenience:
@@ -82,10 +82,39 @@ or, for convenience:
 make shell
 ```
 
+## Compatibility with systems that need cgroups volumes
+
+Certain combinations of systemd, docker and linux kernel cgroup configuration may
+require the cgroup folder manually mounted inside the container. In this case
+checkout the git repository and run:
+
+```bash
+docker build --target build_with_volume -t carlodepieri/docker-archlinux-systemd .
+```
+
+or:
+
+```bash
+make build-image-volume
+```
+
+Then run the container with:
+
+```bash
+docker run --name=cdp-arch-systemd --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro carlodepieri/docker-archlinux-systemd
+```
+
+or:
+
+```bash
+make run-container-volume
+```
+
+A shell can still be obtained as illustrated above.
+
 ## Note
 
-Containers started this way will have cgroup folder available
-as read-only and `--privileged` turned on.
+Containers started this way will have extended control over the host because of the `--privileged` flag.
 
 > **Important**: these steps are necessary to make systemd behave,
 > but be sure to understand [the security concerns involved](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities).
