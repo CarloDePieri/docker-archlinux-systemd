@@ -24,6 +24,7 @@ jobs:
       is_cron: ${{ github.event_name == 'schedule' }}
 
     steps:
+
       - name: Checkout.
         uses: actions/checkout@v4
 
@@ -51,6 +52,9 @@ jobs:
 
     steps:
 
+      - name: Checkout.
+        uses: actions/checkout@v4
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -73,3 +77,10 @@ jobs:
             carlodepieri/docker-archlinux-systemd:${{ steps.date.outputs.DATE }}
             carlodepieri/docker-archlinux-systemd:latest
           target: build
+
+      - name: Keep the DockerHub readme in sync
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: carlodepieri/docker-archlinux-systemd
