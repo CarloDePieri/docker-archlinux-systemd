@@ -47,12 +47,9 @@ jobs:
     needs: ci
     name: deploy
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip-deploy')"
 
     steps:
-
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y%m%d')"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -63,12 +60,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Get current date
+        id: date
+        run: echo "DATE=$(date +'%Y%m%d')" >> "$GITHUB_OUTPUT"
+
       - name: Build, tag and push the image
         id: docker_build
         uses: docker/build-push-action@v6
         with:
           push: true
           tags: |
-            carlodepieri/docker-archlinux-systemd:${{ steps.date.outputs.date }}
+            carlodepieri/docker-archlinux-systemd:${{ steps.date.outputs.DATE }}
             carlodepieri/docker-archlinux-systemd:latest
           target: build
