@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 FROM archlinux:latest AS build
 LABEL maintainer="depieri.carlo@gmail.com"
-ENV container "docker"
+ENV container="docker"
 RUN pacman -Syu --noconfirm; \
 yes | pacman -Scc; \
 (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
